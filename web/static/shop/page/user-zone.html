@@ -1,0 +1,709 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>克里斯多的神秘商店-商品详情</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/my-defined.css">
+    <link rel="stylesheet" href="../css/old/css/foundation.css">
+    <link rel="stylesheet" href="../css/old/css/app.css">
+</head>
+<body>
+
+
+
+<!--响应式设计-->
+<!--顶部导航-->
+<!--移动端菜单怎么固定导航-->
+<div class="page-main">
+    <div class="page-top">
+        <div class="title-bar"  data-sticky data-options="marginTop:0;" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+            <button class="menu-icon" type="button" data-toggle="offCanvas"></button>
+            <div class="title-bar-title">Menu</div>
+        </div>
+        <!--sticky 固定导航条-->
+        <div class="top-bar show-for-medium" data-sticky data-options="marginTop:0;" style="width:100%;z-index: 998" id="responsive-menu">
+            <div class="top-bar-left">
+                <ul class="menu dropdown"  data-dropdown-menu>
+                    <li class="menu-text"><a href="javascript:go('main.html')" title="返回首页" style="display: inline;color: #000;">Christo</a></li>
+                    <li class="isLogin"><a href="javascript:go('login.html')">登录</a></li>
+                    <li class="isRegister"><a href="javascript:go('register.html')">注册</a></li>
+                    <li id="li-items-type"><a href="#!"><button class="divide-type" id="items-type" data-toggle="offCanvasTop">分类查询</button></a></li>
+
+                </ul>
+            </div>
+            <div class="top-bar-right">
+                <ul class="menu dropdown" data-dropdown-menu>
+                    <li class="show-for-medium isUserAvatar"><img class="avatar" src="../images/avatar/default-avatar.png" alt="avatar"></li>
+                    <li class="show-for-medium isUserName"><a class="user-name" href="">zipple</a></li>
+                    <li class="isShowUser"> <!--头像及个人中心先判断用户是否登录 未登录则不显示-->
+                        <a href="javascript:go('user-zone.html')">个人中心</a>
+                        <ul class="menu vertical">
+                            <li><a href="javascript:go('user-zone.html','cart')">购物车</a></li>
+                            <li><a data-link="favorite" href="javascript:go('user-zone.html','favorite')">我的收藏</a></li>
+                            <li><a data-link="history" href="javascript:go('user-zone.html','history')">浏览历史</a></li>
+                        </ul>
+                    </li>
+                    <li class="show-for-medium isLogout"><a href="javascript:logout()">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--移动端菜单-->
+        <div class="off-canvas position-left" id="offCanvas" style="background: #121212;color: #ffffff;z-index: 200;" data-off-canvas>
+            <ul class="vertical menu left-menu">
+                <!--默认头像-->
+                <li style="width: 100%;min-height: 100px;padding-left: 15px;box-sizing: border-box">
+                    <img style="width: 80px;height: 80px;object-fit: cover;border-radius: 50%" src="../images/avatar/02.jpg" class="avatar" alt="avatar">
+                    <p  class="user-name" style="border-bottom: 1px solid #ffffff;padding-left: 5px;">default name</p>
+                </li>
+                <!--这里为什么会有默认的黄线-->
+                <li><a href="javascript:go('login.html')" style="color: #ffffff;"><i class="fi-cloud"></i>&nbsp;登录</a></li>
+                <li><a href="javascript:go('register.html')" style="color: #ffffff;"><i class="fi-results-demographics"></i>&nbsp;注册</a></li>
+                <li><button class="divide-type" data-toggle="offCanvasTop"><i class="fi-page"></i>&nbsp;  分类查询</button></li>
+                <li><a href="javascript:go('user-zone.html')" style="color: #ffffff;"><i class="fi-home"></i>&nbsp;个人中心</a></li>
+                <li><a href="javascript:go('user-zone.html','cart')" style="color: #ffffff;"><i class="fi-shopping-cart"></i>&nbsp;购物车</a></li>
+                <li><a href="javascript:go('user-zone.html','history')" style="color: #ffffff;"><i class="fi-eye"></i>&nbsp;浏览历史</a></li>
+                <li><a href="javascript:go('user-zone.html','favorite')" style="color: #ffffff;"><i class="fi-star"></i>&nbsp;收藏夹</a></li>
+                <li><a href="javascript:logout()" style="color: #ffffff;"><i class="fi-unlink"></i>&nbsp;退出</a></li>
+            </ul>
+        </div>
+
+        <!--分类查询菜单-->
+        <div class="off-canvas position-top" id="offCanvasTop" style="background: #121212;color: #ffffff;z-index: 999" data-off-canvas>
+            <ul class="dropdown menu root-category" data-dropdown-menu style="height: 100%;">
+            </ul>
+        </div>
+
+        <!--右侧固定返回顶部-->
+        <div class="back-to-top text-center show-for-medium">
+            <a href="javascript:goTop()" title="返回顶部" class="grid-x align-center" style="background: url('../images/icon/top.png') center ; background-size: contain"></a>
+        </div>
+    </div>
+    <div class="page-content grid-x align-center user-zone">
+        <!--
+         选项卡分页：信息修改，收藏，浏览历史，订单入口，购物入口
+        -->
+        <div class="grid-x small-12 medium-user-zone">
+            <div class="small-12 grid-x align-middle user-top-banner">
+                <div class="small-12 medium-8 grid-x user-summary">
+                    <div class="small-4">
+                        <div class="user-user-avatar">
+                            <img class="user-avatar" src="../images/avatar/02.jpg" alt="用户头像" title="点击修改头像"> <!--点击上传头像-->
+                        </div>
+                    </div>
+                    <div class="user-account-description-wrapper small-8">
+                        <div class="user-username">zippler</div>
+                        <div class="user-description">亲爱的 <span class="user-username">zipper</span>，欢迎来到克里斯多！</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-x large-10 show-for-medium" style="margin: 20px;min-height: 400px;">
+            <div class="grid-x small-12 align-justify">
+                <div class="grid-x small-12 medium-3">
+
+                    <ul class="vertical tabs user-tabs" data-tabs id="user-tabs" data-active-collapse="true">
+                        <li class="tabs-title cart is-active"><a href="#panel7v" aria-selected="true"><i class="fi-shopping-cart"></i>&nbsp;&nbsp;购物车</a></li>
+                        <li class="tabs-title modify-password"><a href="#panel6v" class="load-password-panel"><i class="fi-unlock"></i>&nbsp;&nbsp;修改密码</a></li>
+                        <li class="tabs-title manage-address"><a href="#panel5v" class="load-address-panel"><i class="fi-widget"></i>&nbsp;&nbsp;地址管理</a></li>
+                        <li class="tabs-title query-order"><a href="#panel2v" class="load-order-panel">
+                            <i class="fi-price-tag"></i>&nbsp;&nbsp;订单查询</a>  <!--收缩菜单-->
+                        </li>
+                        <li class="tabs-title history"><a href="#panel3v" class="load-history-panel"><i class="fi-foot"></i>&nbsp;&nbsp;历史足迹</a></li>
+                        <li class="tabs-title favorite"><a href="#panel4v" class="load-collection-panel"><i class="fi-star"></i>&nbsp;我的收藏</a></li>
+                        <li class="tabs-title personal"><a href="#panel1v" class="load-personal-panel"><i class="fi-male-symbol"></i>&nbsp;个人统计</a></li>
+                    </ul>
+                </div>
+                <div class="grid-x small-12 medium-9">
+                    <div class="tabs-content" data-tabs-content="user-tabs" style="width: 100%;">
+
+                        <!--购物车-->
+                        <div class="tabs-panel is-active" id="panel7v">
+                            <p>我的购物车</p>
+                            <!--<div class="favorite-item-wrapper">-->
+                            <!--什么都没有，去 <a href="main.html?uid=?">逛逛</a>-->
+                            <!--</div>-->
+                            <div class="user-cart grid-x align-justify">
+                                <div class="cart-row">
+                                    <!--全选，总价格-->
+                                    <div class="cart-header">
+                                        <div class="check-all"><label><input type="checkbox" id="check-all" value="checkAll"> &nbsp;&nbsp;全选</label></div>
+                                        <div class="total-price">总价格：￥<span class="red">0</span></div>
+                                        <div class=""><button class="button alert submit-cart">结算</button></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!--个人统计-->
+                        <div class="tabs-panel" id="panel1v">
+                            <p>个人统计</p>
+                            <div class="user-modify-info grid-x align-middle"><!--用户昵称，密保-->
+                                <div>
+                                    <p>尊敬的<span class="red">zippler</span>先生：</p>
+                                    <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好！您加入到克里斯多已经有 <span class="red">3</span>天了。在这72个小时里，克里斯多与您一起度过了美好的时光。
+                                        &nbsp;&nbsp;您一共购买了<span class="red">1</span>件商品,共花费了 <span class="red">3888</span>元。当前为商城尊贵的<span class="red">会员</span>客户。</p>
+                                    <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;祝您 <span class="red">工作顺利，生活愉快！</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--修改密码-->
+                        <div class="tabs-panel" id="panel6v">
+                            <p>修改密码</p>
+                            <div class="user-modify-password">
+                                <form class="form user-modify-password-form" action=""  data-abide novalidate>
+                                    <div class="form-row"><!--输入原密码-->
+                                        <label>
+                                            <input type="password" id="old-password" onfocus="changeType('text')" onblur="changeType('password')"  placeholder="原密码.." maxlength="16" aria-describedby="passwordHelpText" required pattern="([a-zA-Z0-9!@#$%^&*()_?<>{}]){1,16}">
+                                            <span class="form-error">输入原密码</span>
+                                        </label>
+                                        <p class="help-text" id="oldPasswordHelpText">密码由数字，字母及特殊符号组成，最长为16位</p>
+                                    </div>
+                                    <div class="form-row"><!--最后修改密码-->
+                                        <label>
+                                            <input type="password" id="input-password" onfocus="changeType('text')" onblur="changeType('password')"  placeholder="密码.." maxlength="16" aria-describedby="passwordHelpText" required pattern="([a-zA-Z0-9!@#$%^&*()_?<>{}]){1,16}">
+                                            <span class="form-error">不能为空或者包含非法字符</span>
+                                        </label>
+                                        <p class="help-text" id="passwordHelpText">密码由数字，字母及特殊符号组成，最长为16位</p>
+                                    </div>
+                                    <button class="button submitModifyPassword " id="modifyRegister" style="background: darkorange;">修改密码</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!--修改用户收货地址及密码-->
+                        <div class="tabs-panel" id="panel5v">
+                            <p>地址管理</p>
+                            <div class="grid-x align-middle align-justify" style="width: 100%;min-height: 260px;">
+                                <div class="user-address-info">
+                                    <!--这里获取用户的地址信息-->
+                                    <div class="user-old-address">
+
+
+                                    </div>
+
+                                    <fieldset class="fieldset">
+                                        <legend>添加地址</legend>
+                                        <div>
+                                            &nbsp;收&nbsp;件&nbsp;人：<input id="person" type="text" placeholder="如：邹小邹">
+                                        </div>
+                                        <div>
+                                            联系方式：<input id="phone" type="text" placeholder="如：18373151083">
+                                        </div>
+                                        <div class="user-address">
+
+                                            <div id="address" data-toggle="distpicker"> <!-- container -->
+                                                收货地址：
+                                                <select></select><!-- province -->
+                                                <select></select><!-- city -->
+                                                <select></select><!-- district -->
+                                            </div>
+                                            <div class="user-detail-address">
+                                                详细地址：<input id="detailAddress" type="text" placeholder="如：中南大学铁道学院">
+                                            </div>
+                                        </div>
+                                        <button class="button alert " onclick="addAddress()">添加</button>  <!--提交地址信息-->
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <!--订单查询，按时间排序 提供搜索接口-->
+                        <div class="tabs-panel" id="panel2v">
+                            <p>订单查询</p>
+                            <!--订单评价页面可对商品进行评价-->
+                            <div class="order-wrapper">
+                                <div class="order-header">
+                                    <div>
+                                        <span>订单类型：</span>
+                                        <select name="" id="order-type">
+                                            <option value="1">全部</option>
+                                            <option value="1">新订单</option>
+                                            <option value="1">已支付</option>
+                                            <option value="1">已发货</option>
+                                            <option value="1">已作废</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <span>排序方式:</span>
+                                        <select name="" id="order-sort">
+                                            <option value="001">按时间排序</option>
+                                            <option value="001">按价格排序</option>
+                                        </select>
+                                    </div>
+                                    <div class="search-input">
+                                        <input type="search" placeholder="搜索订单..eg..流水号">
+                                        <button class="button alert"><i class="fi-magnifying-glass"></i></button>
+                                    </div>
+                                </div>
+                                <div class="order-row">
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--历史足迹，展示前四条历史记录，分页展示-->
+                        <div class="tabs-panel" id="panel3v">
+                            <p>历史足迹</p>
+                            <div class="grid-x align-left user-history">
+
+
+                            </div>
+
+                        </div>
+                        <!--我的收藏-->
+                        <div class="tabs-panel" id="panel4v">
+                            <p>我的收藏</p>
+                            <div class="favorite-item-wrapper grid-x">
+                               <div>什么都没有，去 <a href="javascript:go('main.html')">逛逛</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-x small-12  align-center show-for-small-only">
+            <div class="small-12">
+                <ul class="accordion user-tabs-phone" data-accordion data-allow-all-closed="true">
+                    <li class="accordion-item cart" data-accordion-item>
+                        <a href="#" class="accordion-title"><i class="fi-shopping-cart"></i>&nbsp;&nbsp;购物车</a>
+                        <div class="accordion-content" data-tab-content >
+                            <div class="user-cart isphone grid-x align-justify">
+                                <div class="cart-row">
+                                    <!--全选，总价格-->
+                                    <div class="cart-header">
+                                        <div class="check-all"><label><input type="checkbox" id="check-all-phone" value="checkAll"> &nbsp;&nbsp;全选</label></div>
+                                        <div class="total-price">总价格：￥<span class="red">3888</span></div>
+                                        <div class=""><button class="button alert submit-cart">结算</button></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                    <li class="accordion-item modify-password" data-accordion-item>
+                        <a href="#" class="accordion-title load-password-panel"><i class="fi-unlock"></i>&nbsp;&nbsp;修改密码</a>
+                        <div class="accordion-content" data-tab-content>
+                            <div class="user-modify-password">
+
+                                <div class="user-modify-password">
+                                    <form class="form user-modify-password-form" action=""  data-abide novalidate>
+                                        <div class="form-row"><!--输入原密码-->
+                                            <label>
+                                                <input type="password" id="old-password-phone" onfocus="changeType('text')" onblur="changeType('password')"  placeholder="原密码.." maxlength="16" aria-describedby="passwordHelpText" required pattern="([a-zA-Z0-9!@#$%^&*()_?<>{}]){1,16}">
+                                                <span class="form-error">输入原密码</span>
+                                            </label>
+                                            <p class="help-text" id="oldPasswordHelpTextPhone">密码由数字，字母及特殊符号组成，最长为16位</p>
+                                        </div>
+                                        <div class="form-row"><!--最后修改密码-->
+                                            <label>
+                                                <input type="password" id="input-password-phone" onfocus="changeType('text')" onblur="changeType('password')"  placeholder="密码.." maxlength="16" aria-describedby="passwordHelpText" required pattern="([a-zA-Z0-9!@#$%^&*()_?<>{}]){1,16}">
+                                                <span class="form-error">不能为空或者包含非法字符</span>
+                                            </label>
+                                            <p class="help-text" id="passwordHelpTextPhone">密码由数字，字母及特殊符号组成，最长为16位</p>
+                                        </div>
+                                        <button class="button  " id="modifyRegisterPhone" style="background: darkorange;">修改密码</button>
+                                    </form>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="accordion-item manage-address" data-accordion-item>
+                        <a href="#" class="accordion-title  load-address-panel"><i class="fi-widget"></i>&nbsp;&nbsp;地址管理</a>
+                        <div class="accordion-content" data-tab-content>
+                            <div class="grid-x align-middle align-justify" style="width: 100%;min-height: 260px;">
+                                <div class="user-address-info">
+                                    <!--这里获取用户的地址信息-->
+                                    <div class="user-old-address">
+
+                                    </div>
+
+                                    <fieldset class="fieldset">
+                                        <legend>添加地址</legend>
+                                        <div>
+                                            &nbsp;收&nbsp;件&nbsp;人：<input id="person" type="text" placeholder="如：邹小邹">
+                                        </div>
+                                        <div>
+                                            联系方式：<input id="phone" type="text" placeholder="如：18373151083">
+                                        </div>
+                                        <div class="user-address isPhone">
+
+                                            <div id="addressPhone" data-toggle="distpicker"> <!-- container -->
+                                                收货地址：
+                                                <select></select><!-- province -->
+                                                <select></select><!-- city -->
+                                                <select></select><!-- district -->
+                                            </div>
+                                            <div class="user-detail-address">
+                                                详细地址：<input id="detailAddressPhone" type="text" placeholder="如：中南大学铁道学院">
+                                            </div>
+                                        </div>
+                                        <button class="button alert " onclick="addAddress()">添加</button>  <!--提交地址信息-->
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="accordion-item query-order" data-accordion-item>
+                        <a href="#" class="accordion-title  load-order-panel">  <i class="fi-price-tag"></i>&nbsp;&nbsp;订单查询</a>
+                        <div class="accordion-content" data-tab-content>
+                            <div class="order-wrapper">
+                                <div class="order-header">
+                                    <div>
+
+                                        <select name="" class="order-type">
+                                            <option value="1">全部</option>
+                                            <option value="1">新订单</option>
+                                            <option value="1">已支付</option>
+                                            <option value="1">已发货</option>
+                                            <option value="1">已作废</option>
+                                        </select>
+                                    </div>
+                                    <div>
+
+                                        <select name="" class="order-sort">
+                                            <option value="001">按时间排序</option>
+                                            <option value="001">按价格排序</option>
+                                        </select>
+                                    </div>
+                                    <div class="search-input">
+                                        <input type="search" placeholder="搜索订单..eg..流水号">
+                                        <button class="button alert"><i class="fi-magnifying-glass"></i></button>
+                                    </div>
+                                </div>
+                                <div class="order-row">
+                                    <div class="order-info">
+                                        <div class="order-id">订单号：20170923110912</div>
+                                        <div class="order-time">下单时间：2017-09-23 11:09:12</div>
+                                    </div>
+                                    <div class="cart-item">
+                                        <img src="../images/phone/phone.jpg" alt="手机">
+                                        <div class="item-info">
+                                            <div class="usual-item-info">
+                                                <div class="item-name"><a href="items-detail.html?gid=001">IPhone 7Plus 8G</a></div>
+                                                <div class="item-price red">￥3888</div>
+                                            </div>
+                                            <div class="item-nums">
+                                                <!--data-item-price,当前商品价格-->
+                                                * <input type="number" data-item-price="3888" value="1" disabled >
+                                            </div>
+
+                                            <div class="item-total-price">
+                                                ￥3888
+                                            </div>
+                                            <!--传递商品id-->
+                                            <div class="red order-state">交易成功</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="accordion-item history" data-accordion-item>
+                        <a href="#" class="accordion-title  load-history-panel"><i class="fi-foot"></i>&nbsp;&nbsp;历史足迹</a>
+                        <div class="accordion-content" data-tab-content>
+                            <div class="grid-x align-left history">
+                                <div class="grid-x align-left user-history">
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="accordion-item favorite" data-accordion-item>
+                        <a href="#" class="accordion-title  load-collection-panel"><i class="fi-star"></i>&nbsp;我的收藏</a>
+                        <div class="accordion-content" data-tab-content>
+                            <div class="favorite-item-wrapper grid-x">
+                                <div>什么都没有，去 <a href="javascript:go('main.html')">逛逛</a></div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="accordion-item personal" data-accordion-item>
+                        <a href="#" class="accordion-title  load-personal-panel"><i class="fi-male-symbol"></i>&nbsp;个人统计</a>
+                        <div class="accordion-content" data-tab-content>
+                            <div class="user-modify-info grid-x align-middle"><!--用户昵称，密保-->
+                                <div>
+                                    <p>尊敬的<span class="red">zippler</span>先生：</p>
+                                    <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好！您加入到克里斯多已经有 <span class="red">3</span>天了。在这72个小时里，克里斯多与您一起度过了美好的时光。
+                                        &nbsp;&nbsp;您一共购买了<span class="red">1</span>件商品,共花费了 <span class="red">3888</span>元。当前为商城尊贵的<span class="red">会员</span>客户。</p>
+                                    <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;祝您 <span class="red">工作顺利，生活愉快！</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!--底部信息-->
+    <footer>
+        <div class="bottom-info">
+            <div>Copyright © 2017 Christo. All Rights Reserved. </div>
+            <div>东软教育-地表最强小组</div>
+        </div>
+    </footer>
+</div>
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/what-input/dist/what-input.js"></script>
+<script src="../bower_components/foundation-sites/dist/js/foundation.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/distpicker/js/distpicker.data.js"></script>
+<script src="../js/distpicker/js/distpicker.js"></script>
+
+<script src="../js/common.js"></script>
+<script src="../js/validate.js"></script>
+<script src="../js/creator.js"></script>
+
+<script>
+    $("#address").distpicker({
+        province: '---- 所在省 ----',
+        city: '---- 所在市 ----',
+        district: '---- 所在区 ----'});
+
+    $("#addressPhone").distpicker({
+        province: '---- 所在省 ----',
+        city: '---- 所在市 ----',
+        district: '---- 所在区 ----'});
+
+
+
+    $("#editPhone").click(function () {
+        $(".phone").removeAttr("disabled").focus();
+    });
+    $("#editPhonePhone").click(function () {
+        $(".phone").removeAttr("disabled").focus();
+    });
+
+
+    loadCartInfo();//加载购物车
+
+    $(".load-personal-panel").click(function () {
+        loadUserInfo();//加载用户个人信息
+    });
+    $(".load-history-panel").click(function () {
+        loadHistory();//加载浏览记录
+    });
+    $(".load-address-panel").click(function () {
+        loadAddress();//加载地址
+    });
+    $(".load-collection-panel").click(function () {
+        loadCollection();//加载收藏
+    });
+    $(".load-order-panel").click(function () {
+        loadOrders();//加载订单
+    });
+
+
+
+
+    //选择第一个打开的样式,addClass,接受地址栏参数,如果有参数则显示参数那一列
+
+    function blurAddDisable(elements,type) {
+        //首先对格式进行验证
+
+        if (type==0){
+            //商品数量
+            if ($(elements).val()<=0){
+                $(elements).css("border-color","red").focus();
+            }else{
+                $(elements).parent('div').siblings('div.item-total-price span').text($(elements).val()*$(elements).attr("data-item-price"));
+                //提交数据更新
+                var num =$(elements).val();
+                var parent = $(elements).parent("div").parent("div").parent("div").parent("div");
+                var id = parent.attr("data-cart-id");
+                var attrId = parent.attr("data-product-attrId");
+                var uid =getUid();
+                var pid = parent.find("input").val();
+                updateCart(id,uid,pid,num,attrId);
+
+                $(elements).attr("disabled","true");
+              //  getCartTotalPrice();//不刷新更新价格
+            }
+        }
+
+       $(elements).attr("disabled","true");
+    }
+
+
+
+
+    //全选商品
+    $("#check-all").click(function () {
+        if(this.checked){
+            $("#panel7v .cart-row :checkbox").attr("checked", true);
+        }else{
+            $("#panel7v .cart-row :checkbox").attr("checked", false);
+        }
+    });
+
+    $("#check-all-phone").click(function () {
+        if(this.checked){
+            $(".cart .cart-row:checkbox").attr("checked", true);
+        }else{
+            $(".cart .cart-row :checkbox").attr("checked", false);
+        }
+    });
+
+    /*
+    * 提交购物车，生成订单
+    * 获取选中的商品参数，移交到pay.html页面
+    * */
+    $(".submit-cart").click(function () {
+//        alert("使用ajax提交选中的商品");
+
+        //遍历购物车---生成订单到下一个界面
+        var order={
+            "ids":[],//商品规格id
+            "counts":[],//对应的商品数量
+            "cartIds":[],//对应的购物车Id
+            "productIds":[],//商品id
+            "uid":getUid()
+        };
+        var flag=false;
+        $(".cart-row").each(function () {
+            var checked =$(this).children("div.is-checked").children("input");
+            var nums = $(this).children("div.cart-item").find("input");
+            var cart = $(this).attr("data-cart-id");
+            if (checked.is(':checked')){
+                order.productIds.push(checked.val());
+                order.ids.push(checked.attr("data-product-attrId"));
+                order.counts.push(nums.val());
+                order.cartIds.push(cart);
+                flag =true;
+            }
+        });
+       // var temp="{   \"ids\":"+arrayToString(order.ids,"[","]")+", \"count\":"+arrayToString(order.counts,"[","]")+",  \"carts\":"+arrayToString(order.cartIds,"[","]")+"   }";
+        var json={
+            "ids":encodeStr(arrayToString(order.ids,"[","]")),
+            "counts":encodeStr(arrayToString(order.counts,"[","]")),
+            "cartIds":encodeStr(arrayToString(order.cartIds,"[","]")),
+            "productIds":encodeStr(arrayToString(order.productIds,"[","]")),
+            "uid":encodeStr(getUid()),
+            "productIdsArray":order.productIds,
+            "countsArray":order.counts,
+            "cartIdsArray":order.cartIds,
+            "idsArray":order.ids,
+        };
+
+       if (flag){
+           goto("pay.html",json,false);
+       }else{
+           alert("未选择商品")
+       }
+    });
+
+    $("#modifyRegister").click(function () {
+        return !$(this).hasClass("disabled");
+    });
+    $("#modifyRegisterPhone").click(function () {
+        return !$(this).hasClass("disabled");
+    });
+
+    function removeDisabled(elements) {
+        $(elements).parent('div').children('input').eq(0).removeAttr("disabled").focus();
+    }
+
+    /**
+     * 修改密码
+     */
+    $(".submitModifyPassword").click(function () {
+        var uid = getUid();
+          var oldPassword=$("#old-password").val();
+          var newPassword=$("#input-password").val();
+        var params = {
+            "id":uid,
+            "password":oldPassword,
+            "newPassword":newPassword
+        };
+        var result=ajax("user/modifyPassword",params,false);
+          if (result.success){
+              alert("密码修改完成，请记住您的密码!")
+          }else{
+              alert(result.message);
+          }
+    });
+    $("#modifyRegisterPhone").click(function () {
+        var uid = getUid();
+        var oldPassword=$("#old-password-phone").val();
+        var newPassword=$("#input-password-phone").val();
+        var params = {
+            "id":uid,
+            "password":oldPassword,
+            "newPassword":newPassword
+        };
+        var result=ajax("user/modifyPassword",params,false);
+        if (result.success){
+            alert("密码修改完成，请记住您的密码!")
+        }else{
+            alert(result.message);
+        }
+    });
+    /**
+     * 修改地址--转去失焦事件。触发提交
+     * @param elements
+     */
+    function editAddress(elements) {
+         $(elements).prev().removeAttr("disabled").focus();
+    }
+    /**
+     * 删除地址
+     * @param elements
+     */
+    function deleteAddress(elements) {
+        var id = $(elements).attr("data-address-id");
+        var result = ajax("address/deleteAddress",{"id":id},false);
+        if (result.success){
+            alert("删除成功!");
+            window.location.reload();
+        }else{
+            alert("删除失败")
+        }
+    }
+
+    /**
+     * 添加收货地址
+     */
+    function addAddress() {
+        var uid = getUid();
+        var name = $("#person").val();
+        var phone =$("#phone").val();
+        var postcode=$("#address").children("select").eq(2).find("option:selected").attr("data-code");
+        console.log("postcode:"+postcode);
+        var address = "";
+
+        $("#address select").each(function () {
+            address+=$(this).val();
+        });
+        address+=$("#detailAddress").val();
+
+        var params = {
+            "address.userId":uid,
+            "address.name":name,
+            "address.phone":phone,
+            "address.postcode":postcode,
+            "address.address":address
+         };
+
+         var result = ajaxPost("address/addAddress",params,false);//参数超出限制
+         if (result.success){
+             alert("添加地址成功");
+             window.location.reload();
+         }else{
+             alert("添加地址失败");
+         }
+    }
+
+</script>
+</body>
+</html>

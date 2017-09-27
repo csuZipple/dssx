@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>克里斯多商城-找回密码</title>
+    <meta name="keywords" content="克里斯多商城，智能电器!">
+    <meta name="description" content="克里斯多商城，时下最好用的智能电器商城">
+    <link rel="StyleSheet" href="../css/forget.css" type="text/css" media="screen" />
+</head>
+<body>
+<div class="wrap">
+    <div class="nav"> > <a href="javascript:history.go(-1)">返回上一页</a> </div>
+    <div class="show-small">忘记密码移动端适配，敬请期待v2.0~</div>
+    <div class="step-info">
+        <div class="circle active">1</div><!--输入账号-->
+        <div class="circle">2</div><!--密保问题-->
+        <div class="circle">3</div><!--设置密码-->
+    </div>
+    <div class="step-info step-info-text">
+        <div class="text-info">账号</div>
+        <div class="text-info">密保</div>
+        <div class="text-info">密码</div>
+    </div>
+
+    <div class="form-wrap">
+        <div class="content-wrap">
+            <!--Ajax技术异步操作-->
+            <div class="input-account">
+                <span>请输入账号:</span>
+                <div><input class="account" type="text" name="account" size="16" maxlength="16" onkeydown="if(event.keyCode==13)go(1);"></div>
+                <div  class="error-tips">error</div>
+                <button class="next" type="button" onclick="go(1)">下一步</button>
+            </div>
+            <div class="input-phone">
+                <span>请输入密保答案:</span>
+                <div class="question"></div>
+                <div><input class="question" type="text" name="question" size="11" maxlength="11" onkeydown="if(event.keyCode==13)go(2);"></div>
+                <div  class="error-tips">error</div>
+                <button class="next" type="button" onclick="go(2)">提交答案</button>
+            </div>
+            <div class="input-password">
+                <span>请输入新密码:</span>
+                <div><input class="newPsw" type="text" name="password" size="16" maxlength="16" onkeydown="if(event.keyCode==13)updatePsw();"></div>
+                <button class="success" onclick="updatePsw()">完成</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="footer">
+        <p>&copy;Christo. All rights reserved.</p>
+    </div>
+</div>
+</body>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/validate.js"></script>
+<script src="../js/creator.js"></script>
+<script>
+
+    //如果用户直接跳过前几步，直接到第三步修改密码----敬请期待v2.0
+
+   //加载密保问题
+  function getQuestion(username) {
+      var question = ajax("user/getQuestionByUsername",{"username":username},false);
+      if (question.success){
+          replaceTextIn(".question",question.data.question)
+      }
+  }
+
+    var username = "";//全局变量储存
+
+    function go(index) {
+        var i=index;
+        if (i==1){
+            checkAccount();
+        }else if (i==2){
+            checkPassword();//判断密保答案
+        }else if (i==3){
+            ani(3);
+        }
+    }
+
+    /*动画*/
+    function ani(index) {
+        var per=index*100;
+        $(".content-wrap").animate({
+            "left":"-"+per+"%"
+        },800);
+        console.log("修改圆圈");
+
+        $(".circle").eq(index).addClass("active")
+
+    }
+    function checkAccount() {
+        var account = $("input.account").val();
+        var result = ajax("user/isExistUser",{"username":account},false);
+        if (!result.exist){
+            showErrorTips("不存在此用户",0)
+        }else{
+            ani(1);
+            getQuestion(account);
+            username=account;
+        }
+    }
+   /**
+    * 核对用户密保答案
+    */
+   function checkPassword(){
+       var input_password = $("input[name='question']").val();
+       var result = ajaxPost("user/answerIsRight",{"username":username,"answer":input_password},false);
+       if (!result.success){
+           showErrorTips("密保答案错误",1);
+       }else{
+           ani(2);
+       }
+    }
+
+    function updatePsw() {
+        var newpsw = $(".newPsw").val();
+        if (newpsw==""||newpsw==null){
+            showErrorTips("密码不允许为空",2);//正则验证敬请期待v2.0
+        }else{
+           var result=  ajaxPost("user/changePassword",{"username":username,"newPassword":newpsw},false);
+            if (result.success){
+                alert("修改成功---转去登录");
+                goto("login.html");
+            }
+        }
+    }
+
+
+    function showErrorTips(text,index) {
+        $(".error-tips").eq(index).css({
+            "display":"block"
+        });
+        $(".error-tips").eq(index).text(text);
+    }
+
+</script>
+</html>

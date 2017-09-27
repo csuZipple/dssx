@@ -1,0 +1,302 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>克里斯多的神秘商店-搜索界面</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/my-defined.css">
+    <link rel="stylesheet" href="../css/old/css/foundation.css">
+    <link rel="stylesheet" href="../css/old/css/app.css">
+</head>
+<body>
+
+
+
+<!--响应式设计-->
+<!--顶部导航-->
+<!--移动端菜单怎么固定导航-->
+<div class="page-main">
+    <div class="page-top">
+        <div class="title-bar"  data-sticky data-options="marginTop:0;" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+            <button class="menu-icon" type="button" data-toggle="offCanvas"></button>
+            <div class="title-bar-title">Menu</div>
+        </div>
+        <!--sticky 固定导航条-->
+        <div class="top-bar show-for-medium" data-sticky data-options="marginTop:0;" style="width:100%;z-index: 998" id="responsive-menu">
+            <div class="top-bar-left">
+                <ul class="menu dropdown"  data-dropdown-menu>
+                    <li class="menu-text"><a href="javascript:go('main.html')" title="返回首页" style="display: inline;color: #000;">Christo</a></li>
+                    <li class="isLogin"><a href="javascript:go('login.html')">登录</a></li>
+                    <li class="isRegister"><a href="javascript:go('register.html')">注册</a></li>
+                    <li id="li-items-type"><a href="#!"><button class="divide-type" id="items-type" data-toggle="offCanvasTop">分类查询</button></a></li>
+                </ul>
+            </div>
+            <div class="top-bar-right">
+                <ul class="menu dropdown" data-dropdown-menu>
+                    <li class="show-for-medium isUserAvatar"><img class="avatar" src="../images/avatar/default-avatar.png" alt="avatar"></li>
+                    <li class="show-for-medium isUserName"><a class="user-name" href="">zipple</a></li>
+                    <li class="isShowUser"> <!--头像及个人中心先判断用户是否登录 未登录则不显示-->
+                        <a href="javascript:go('user-zone.html')">个人中心</a>
+                        <ul class="menu vertical">
+                            <li><a href="javascript:go('user-zone.html','cart')">购物车</a></li>
+                            <li><a data-link="favorite" href="javascript:go('user-zone.html','favorite')">我的收藏</a></li>
+                            <li><a data-link="history" href="javascript:go('user-zone.html','history')">浏览历史</a></li>
+                        </ul>
+                    </li>
+                    <li class="show-for-medium isLogout"><a href="javascript:logout()">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--移动端菜单-->
+        <div class="off-canvas position-left" id="offCanvas" style="background: #121212;color: #ffffff;z-index: 200;" data-off-canvas>
+            <ul class="vertical menu left-menu">
+                <!--默认头像-->
+                <li style="width: 100%;min-height: 100px;padding-left: 15px;box-sizing: border-box">
+                    <img style="width: 80px;height: 80px;object-fit: cover;border-radius: 50%" src="../images/avatar/02.jpg" class="user-avatar" alt="avatar">
+                    <p  class="user-name" style="border-bottom: 1px solid #ffffff;padding-left: 5px;">default name</p>
+                </li>
+                <!--这里为什么会有默认的黄线-->
+                <li><a href="javascript:go('login.html')" style="color: #ffffff;"><i class="fi-cloud"></i>&nbsp;登录</a></li>
+                <li><a href="javascript:go('register.html')" style="color: #ffffff;"><i class="fi-results-demographics"></i>&nbsp;注册</a></li>
+                <li><button class="divide-type" data-toggle="offCanvasTop"><i class="fi-page"></i>&nbsp;  分类查询</button></li>
+                <li><a href="javascript:go('user-zone.html')" style="color: #ffffff;"><i class="fi-home"></i>&nbsp;个人中心</a></li>
+                <li><a href="javascript:go('user-zone.html','cart')" style="color: #ffffff;"><i class="fi-shopping-cart"></i>&nbsp;购物车</a></li>
+                <li><a href="javascript:go('user-zone.html','history')" style="color: #ffffff;"><i class="fi-eye"></i>&nbsp;浏览历史</a></li>
+                <li><a href="javascript:go('user-zone.html','favorite')" style="color: #ffffff;"><i class="fi-star"></i>&nbsp;收藏夹</a></li>
+                <li><a href="javascript:logout()" style="color: #ffffff;"><i class="fi-unlink"></i>&nbsp;退出</a></li>
+            </ul>
+        </div>
+
+        <!--分类查询菜单-->
+        <div class="off-canvas position-top" id="offCanvasTop" style="background: #121212;color: #ffffff;z-index: 999" data-off-canvas>
+            <ul class=" dropdown menu root-category" data-dropdown-menu style="height: 100%;">
+
+            </ul>
+        </div>
+
+        <!--搜索框,搜索记录-->
+        <div class="grid-x align-center">
+            <div class="large-8 grid-x align-left">
+                <div class="small-10 large-6 search-area"> <!--oninput="searchItems(this)"-->
+                    <label><input type="search" id="searchItems"  placeholder="Search.." onkeydown="if (event.keyCode==13) clickedSearch()"/></label>
+                    <ul class="search-result">
+                    </ul>
+                </div>
+                <div class="small-2 large-2 hide-for-large">
+                    <button class="button primary expanded search text">搜索</button>
+                </div>
+                <div class="large-1 show-for-large">
+                    <button class="button primary expanded search text">搜索</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!--右侧固定返回顶部-->
+        <div class="back-to-top text-center show-for-medium">
+            <a href="javascript:goTop()" title="返回顶部" class="grid-x align-center" style="background: url('../images/icon/top.png') center ; background-size: contain"></a>
+        </div>
+    </div>
+    <div class="page-content">
+         <!--新品上市-->
+        <div class="grid-x align-center main-wrapper" style="margin-top:10px;box-sizing: border-box;padding-bottom: 10px;border-bottom: 1px solid #e8e8e8;">
+            <!--<div class="small-12 large-8 grid-x align-left search-tips" style="display: none;">共为您找到<span class="red">0</span>条记录</div>-->
+            <!--搜索结果-->
+            <div class="small-12 large-8 grid-x align-justify search-result-wrapper" style="margin-top: 20px;">
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <!--底部信息-->
+    <footer>
+        <div class="bottom-info">
+            <div>Copyright © 2017 Christo. All Rights Reserved. </div>
+            <div>东软教育-地表最强小组</div>
+        </div>
+    </footer>
+</div>
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/what-input/dist/what-input.js"></script>
+<script src="../bower_components/foundation-sites/dist/js/foundation.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/validate.js"></script>
+<script src="../js/creator.js"></script>
+
+<script>
+
+    $(function () {
+        var q = getDecodeQueryString("q");
+        $("#searchItems").val(q);
+        $(".search").click();
+    });
+    //点击搜索---可以细分下，以一个字符作为关键字或者多个字符
+   $(".search").click(function () {
+       var q = $("#searchItems").val();
+       search(q);
+   });
+    function clickedSearch() {
+        var q = $("#searchItems").val();
+        search(q);
+    }
+  function search(question) {
+      $(".search-result-wrapper").empty();
+      var result= ajaxPost("product/searchProduct",{"name":question},false);
+      if (result.data!=null||result.data!=""){
+          console.log(result);
+          if (isNullObj(result.data)){
+              createSearchItems("","没有搜索结果...","../images/icon/cry.png","");
+          }else{
+
+              var words = result.words;
+
+              console.log("获取到词包:");
+              console.log(words);
+
+
+              createSearchInfo(result.data.length);
+              $.each(result.data,function (index,item){
+
+                  var strong = item.name;
+                  for (var i=0;i<words.length;i++){
+                      if (words[i]!=" "){
+                          strong = strong.replace(words[i],"<span class='red'>"+words[i]+"</span>");
+                          console.log(strong)
+                      }
+                  }
+
+                  createSearchItems(item.id,strong,rootImageUrl+item.imageUrls[0].imageUrl,item.description);
+              });
+          }
+      }
+  }
+
+    //搜索框--阻止冒泡
+    $(document).click(function () {
+        hideSearch();
+    });
+
+    $(".search-area>input").click(function (e) {
+        e.stopPropagation();
+    });
+
+    $(".search-result li").click(function (e) {
+        e.stopPropagation();
+    });
+
+
+    //获取购买商品的id
+    var pid=-1;
+    var attrid=-2;//注意在其他的card布局中更新这个属性
+    var uid =-3;
+    function getItemId(elements){
+        console.log("获取商品id"+ $(elements).attr("data-item-id"));
+        $(elements).attr("data-toggle","items-details");//添加属性
+
+        /*先判断用户是否登录*/
+         uid = getUid();
+
+        pid=  $(elements).attr("data-item-id");
+        attrid = $(elements).attr("data-item-attrid");
+    }
+
+
+    //获取弹窗的实例
+    $("#items-details").on("open.zf.reveal",function () {
+        console.log("显示弹窗");
+    });
+
+    $("#items-details").on("closeme.zf.reveal",function () {
+        //去除所有的data-toggle="items-details"
+        $("button").each(function () {
+            if ($(this).attr("data-toggle")=="items-details"){
+                $(this).removeAttr("data-toggle");
+            }
+        })
+    });
+
+    $(".submit-add-cart-main").click(function () {
+//        $('#items-details').foundation('_destroy');//销毁实例
+        //在此提交添加购物车请求
+        var num = $(".num").val();//对num进行判断
+
+        //添加到购物车
+
+        if (addToCart(uid,pid,num,attrid)){
+            alert("添加成功！")
+            window.location.reload();
+        }else{
+            alert("添加购物车失败，请重试！")
+        }
+
+
+        $('#items-details').foundation('close');
+    });
+
+    function checkNums(elements) {
+        if ($(elements).val()!=""){
+            // console.log(typeof $(elements).val()) //string
+            if($(elements).val()<=0){  //如果输入0-2？
+                console.log("不发生添加购物车请求事件.");
+                $(elements).val(0);
+                return false;
+            }
+        }
+
+    }
+
+    var sid=4;
+    /**
+     * 加载更多的四个商品
+     */
+    $(".show-more-items").bind("click",function () {
+        console.log("加载更多..."+sid);
+      //  $('#waiting-for-data').foundation('open');
+        var result = ajax("product/getMore",{"startId":sid},false);
+        if (result.success){
+            $.each(result.data,function (index, item) {
+                if (index<4){
+                    sid++;
+                    createItemsCard(".all-items",item.id,rootImageUrl+item.imageUrls[0].imageUrl,item.attr[0].price,item.description,item.name,item.attr[0].id)
+                }else{
+                    return false;
+                }
+            })
+        }
+        if (typeof (result.data[0].id) == 'undefined'){
+            alert("没有更多数据了!")
+        }
+
+     //   $('#waiting-for-data').foundation("close");
+        console.log("关闭弹窗!");
+    });
+function loadFirst4Items(sid) {
+    console.log("加载更多..."+sid);
+    var result = ajax("product/getMore",{"startId":sid},false);
+    if (result.success){
+        $.each(result.data,function (index, item) {
+            if (index<4){
+                sid++;
+                createItemsCard(".all-items",item.id,rootImageUrl+item.imageUrls[0].imageUrl,item.attr[0].price,item.description,item.name,item.attr[0].id)
+            }else{
+                return false;
+            }
+        })
+    }
+    if (typeof (result.data[0].id) == 'undefined'){
+        alert("没有更多数据了!")
+    }
+}
+
+</script>
+</body>
+</html>

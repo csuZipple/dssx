@@ -1,0 +1,286 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>克里斯多的神秘商店-商品详情</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/my-defined.css">
+    <link rel="stylesheet" href="../css/old/css/foundation.css">
+    <link rel="stylesheet" href="../css/old/css/app.css">
+</head>
+<body>
+
+
+
+<!--响应式设计-->
+<!--顶部导航-->
+<!--移动端菜单怎么固定导航-->
+<div class="page-main">
+    <div class="page-top">
+        <div class="title-bar"  data-sticky data-options="marginTop:0;" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+            <button class="menu-icon" type="button" data-toggle="offCanvas"></button>
+            <div class="title-bar-title">Menu</div>
+        </div>
+        <!--sticky 固定导航条-->
+        <div class="top-bar show-for-medium" data-sticky data-options="marginTop:0;" style="width:100%;z-index: 998" id="responsive-menu">
+            <div class="top-bar-left">
+                <ul class="menu dropdown"  data-dropdown-menu>
+                    <li class="menu-text"><a href="javascript:go('main.html')" title="返回首页" style="display: inline;color: #000;">Christo</a></li>
+                    <li class="isLogin"><a href="javascript:go('login.html')">登录</a></li>
+                    <li class="isRegister"><a href="javascript:go('register.html')">注册</a></li>
+                    <li id="li-items-type"><a href="#!"><button class="divide-type" id="items-type" data-toggle="offCanvasTop">分类查询</button></a></li>
+
+                </ul>
+            </div>
+            <div class="top-bar-right">
+                <ul class="menu dropdown" data-dropdown-menu>
+                    <li class="show-for-medium isUserAvatar"><img class="avatar" src="../images/avatar/default-avatar.png" alt="avatar"></li>
+                    <li class="show-for-medium isUserName"><a class="user-name" href="">zipple</a></li>
+                    <li class="isShowUser"> <!--头像及个人中心先判断用户是否登录 未登录则不显示-->
+                        <a href="javascript:go('user-zone.html')">个人中心</a>
+                        <ul class="menu vertical">
+                            <li><a href="javascript:go('user-zone.html','cart')">购物车</a></li>
+                            <li><a data-link="favorite" href="javascript:go('user-zone.html','favorite')">我的收藏</a></li>
+                            <li><a data-link="history" href="javascript:go('user-zone.html','history')">浏览历史</a></li>
+                        </ul>
+                    </li>
+                    <li class="show-for-medium isLogout"><a href="javascript:logout()">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--移动端菜单-->
+        <div class="off-canvas position-left" id="offCanvas" style="background: #121212;color: #ffffff;z-index: 200;" data-off-canvas>
+            <ul class="vertical menu left-menu">
+                <!--默认头像-->
+                <li style="width: 100%;min-height: 100px;padding-left: 15px;box-sizing: border-box">
+                    <img style="width: 80px;height: 80px;object-fit: cover;border-radius: 50%" src="../images/avatar/02.jpg" class="user-avatar" alt="avatar">
+                    <p  class="user-name" style="border-bottom: 1px solid #ffffff;padding-left: 5px;">default name</p>
+                </li>
+                <!--这里为什么会有默认的黄线-->
+                <li><a href="javascript:go('login.html')" style="color: #ffffff;"><i class="fi-cloud"></i>&nbsp;登录</a></li>
+                <li><a href="javascript:go('register.html')" style="color: #ffffff;"><i class="fi-results-demographics"></i>&nbsp;注册</a></li>
+                <li><button class="divide-type" data-toggle="offCanvasTop"><i class="fi-page"></i>&nbsp;  分类查询</button></li>
+                <li><a href="javascript:go('user-zone.html')" style="color: #ffffff;"><i class="fi-home"></i>&nbsp;个人中心</a></li>
+                <li><a href="javascript:go('user-zone.html','cart')" style="color: #ffffff;"><i class="fi-shopping-cart"></i>&nbsp;购物车</a></li>
+                <li><a href="javascript:go('user-zone.html','history')" style="color: #ffffff;"><i class="fi-eye"></i>&nbsp;浏览历史</a></li>
+                <li><a href="javascript:go('user-zone.html','favorite')" style="color: #ffffff;"><i class="fi-star"></i>&nbsp;收藏夹</a></li>
+                <li><a href="javascript:logout()" style="color: #ffffff;"><i class="fi-unlink"></i>&nbsp;退出</a></li>
+            </ul>
+        </div>
+
+        <!--分类查询菜单-->
+        <div class="off-canvas position-top" id="offCanvasTop" style="background: #121212;color: #ffffff;z-index: 999" data-off-canvas>
+            <ul class="dropdown menu root-category" data-dropdown-menu style="height: 100%;">
+            </ul>
+        </div>
+
+        <!--右侧固定返回顶部-->
+        <div class="back-to-top text-center show-for-medium">
+            <a href="javascript:goTop()" title="返回顶部" class="grid-x align-center" style="background: url('../images/icon/top.png') center ; background-size: contain"></a>
+        </div>
+    </div>
+    <div class="page-content  grid-x align-center pay-page">
+        <!--客户详情，收货地址，联系方式，直接获取用户的资料，让用户自己修改-->
+        <div class="order-content large-8 grid-x">
+            <div class="small-12 medium-7 grid-x align-center">
+                <div class=" grid-x align-center small-12" style="max-height: 400px;">
+                    <div class="user-main small-12">客户详情</div>
+                    <div class="order-address-text small-11">账单地址</div>
+                    <div class="order-user-name small-11 ">
+                        <span> 收货人&nbsp;&nbsp;<abbr class="red" title="(必填)">*</abbr>：</span>
+                        <input type="text" name="username" class="user-name" placeholder="如：陈某。">
+                    </div>
+                    <div class="order-phone small-11">
+                        <span>联系方式&nbsp;&nbsp;<abbr class="red" title="(必填)">*</abbr>:</span>
+                        <input type="text" name="userphone" class="user-phone" placeholder="如：18373151083。">
+                    </div>
+                    <div class="order-phone small-11">
+                        <span>邮政编码&nbsp;&nbsp;<abbr class="red" title="(必填)">*</abbr>:</span>
+                        <input type="text" name="postcode" class="user-postcode" placeholder="如：430426。">
+                    </div>
+                    <div class="user-address small-11">
+                        <!--<div id="address" data-toggle="distpicker"> &lt;!&ndash; container &ndash;&gt;-->
+                            <!--收货地址&nbsp;&nbsp;<abbr class="red" title="(必填)">*</abbr>：-->
+                            <!--<select></select>&lt;!&ndash; province &ndash;&gt;-->
+                            <!--<select></select>&lt;!&ndash; city &ndash;&gt;-->
+                            <!--<select></select>&lt;!&ndash; district &ndash;&gt;-->
+                        <!--</div>-->
+                        <div class="user-detail-address">
+                            详细地址：<input id="detailAddress" type="text" placeholder="如：中南大学铁道学院（可选）">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="small-12 medium-5 grid-x align-center">
+                <div class="order-review">
+                    <h3 id="order_review_heading">订单详情</h3>
+                    <div id="order_review" >
+                        <table class="shop_table order_details">
+                            <thead>
+                            <tr>
+                                <th class="product-name">商品</th>
+                                <th class="product-total">合计</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+
+                            <tr class="shipping">
+                                <th>运费</th>
+                                <td>
+                                    免费送货<input type="hidden" name="shipping_method[0]" data-index="0" id="shipping_method_0" value="free_shipping" class="shipping_method">
+                                </td>
+                            </tr>
+                            <tr class="order-total">
+                                <th>订单总计</th>
+                                <td>¥<strong><span class="amount">3888</span></strong> </td>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        <div class="order-accordion-wrapper">
+                            <ul class="accordion payment_methods methods" data-accordion>
+                                <li class="accordion-item is-active payment_method_bacs" data-accordion-item>
+                                    <a href="#" class="accordion-title">
+                                        <input id="payment_method_bacs" type="radio" class="input-radio" name="payment_method" value="bacs" checked="checked">
+                                        <label for="payment_method_bacs">银行汇款（线下） </label></a>
+                                    <div class="accordion-content" data-tab-content>
+                                        <div class="payment_box payment_method_bacs">
+                                            <p>直接付款到我们的银行账户。请使用订单号作为付款名目。我们会在资金到账后配送订单。</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="accordion-item payment_method_alipay" data-accordion-item>
+
+                                    <a href="#" class="accordion-title">
+                                        <input id="payment_method_alipay" type="radio" class="input-radio" name="payment_method" value="alipay">
+                                        <label for="payment_method_alipay">支付宝 <img src="../images/icon/alipay.png" alt="支付宝"></label>
+                                    </a>
+
+                                    <div class="accordion-content" data-tab-content>
+                                        <div class="payment_box payment_method_alipay">
+                                            <p>使用支付宝付款，如果您没有支付宝账户，也可通过借记卡或信用卡付款。</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="payment">
+                            <div class="form-row place-order">
+                                <noscript>由于您的浏览器不支持JavaScript，或者它被禁用，在您付款之前请确保您单击的&amp;lt;em&amp;gt;更新总计&amp;lt;/em&amp;gt;按钮，如果您不这样做，您可能会支付超过上述金额。&amp;lt;br/&amp;gt;&amp;lt;input type="submit" class="button alt" name="woocommerce_checkout_update_totals" value="更新总数" /&amp;gt;</noscript>
+                                <div class="submit_span"><input type="button" data-pay-method="1" class="button alt submitOrder" name="woocommerce_checkout_place_order" id="place_order" value="下单" data-toggle="pay-success"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--支付成功对话框-->
+    <div class="reveal tiny text-center mobile-modal" id="pay-success" data-reveal data-animation-in="fade-in" data-animation-out="fade-out">
+        <img src="../images/icon/success.png" alt="添加成功">
+        <p class="text-center"></p>
+        <p class="text-center">支付中....</p>
+        <p class="text-center">正在跳转界面，请等待...</p>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!--底部信息-->
+    <footer>
+        <div class="bottom-info">
+            <div>Copyright © 2017 Christo. All Rights Reserved. </div>
+            <div>东软教育-地表最强小组</div>
+        </div>
+    </footer>
+</div>
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/what-input/dist/what-input.js"></script>
+<script src="../bower_components/foundation-sites/dist/js/foundation.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/distpicker/js/distpicker.data.js"></script>
+<script src="../js/distpicker/js/distpicker.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/validate.js"></script>
+<script src="../js/creator.js"></script>
+
+<script>
+
+    $("#address").distpicker({
+        province: '---- 所在省 ----',
+        city: '---- 所在市 ----',
+        district: '---- 所在区 ----'});
+
+    var orderJson={
+        "ids":getDecodeQueryString("ids"),
+        "counts":getDecodeQueryString("counts"),
+        "cartIds":getDecodeQueryString("cartIds"),
+        "productIds":getDecodeQueryString("productIds"),
+    };
+    var p ="{ids:"+orderJson.ids+",count:"+orderJson.counts+",carts:"+orderJson.cartIds+"}";
+
+
+/**
+ * 加载此页面，预加载的数据
+*/
+loadPage();
+function loadPage() {
+    //获取上一个页面传过来的参数--ids,counts,cartIds,productIds
+    console.info("cartParams:");
+    var cartParams={
+        "productIdsArray":getQueryString("productIdsArray"),
+        "countsArray":getQueryString("countsArray"),
+        "cartIdsArray":getQueryString("cartIdsArray"),
+        "idsArray":getQueryString("idsArray"),
+    };
+    console.log(cartParams);
+    loadProducts(stringToAray(cartParams.productIdsArray,","),stringToAray(cartParams.idsArray,","),stringToAray(cartParams.countsArray,","));//加载订单信息
+    var uid =getDecodeQueryString("uid");
+    console.log(uid);
+    loadUserAddress(uid);
+}
+
+    //选择支付方式
+    $(".accordion-item").click(function (){
+        $(this).find("input[type='radio']").prop("checked", true);
+        console.log(  $(this).find("input[type='radio']").val());
+        if (  $(this).find("input[type='radio']").val()=="alipay"){
+            $(".alt").val("支付宝付款").attr("data-pay-method","2");
+        }else{
+            $(".alt").val("下单").attr("data-pay-method","1");
+        }
+    });
+
+
+    /**
+     * 提交订单
+     */
+    $(".submitOrder").click(function () {
+           var uid = getUid();
+           console.log("获取到地址");
+           console.log(getAddressObj(uid,0));
+           var params ={
+               "order.userId":uid,
+               "order.state":"1",
+               "addressId":getAddressObj(uid,0).id,//收货地址，默认是第一个
+               "order.express":"2",
+               "order.payMethod": $(".alt").attr("data-pay-method"),
+               "json":p
+           };
+           console.log("提交订单----");
+           console.log(params);
+           submitCart(params)
+    });
+
+
+</script>
+</body>
+</html>

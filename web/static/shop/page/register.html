@@ -1,0 +1,143 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>克里斯多的神秘商店-注册页面</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/my-defined.css">
+    <link rel="stylesheet" href="../css/account-mobile.css">
+    <link rel="stylesheet" href="../css/old/css/foundation.css">
+    <link rel="stylesheet" href="../css/old/css/app.css">
+</head>
+<body>
+
+<!--登录界面-->
+<div class="page-main">
+    <header class="page-top login-header">
+            <span class="logo">Christo</span>
+            <span class="welcome-tips">已有账号？
+               <span data-tooltip aria-haspopup="true" class="has-tip bottom" data-click-open="true" data-disable-hover="false" tabindex="2" title="点此登录克里斯多账号" style="font-weight: normal;"> <a href="login.html?from=?">立即登录</a></span>
+            </span>
+    </header>
+    <section class="page-content login-area" style="background: none;">
+        <div class="login-area-wrapper">
+            <div class="register-form">
+                 <!--注册--表单-->
+                <div class="form-wrapper">
+                    <form class="form"  data-abide novalidate>
+
+                        <p class="" style="width: 100%; font-weight: bolder;"><i class="fi-shopping-bag" style="color: darkorange;"></i> &nbsp;&nbsp;注册享有克里斯多商城优惠价！</p>
+
+                        <div class="form-row">
+                            <label>
+                              <input type="text" onblur="checkUserName(this)" placeholder="用户名.." class="username" aria-describedby="accountHelpText" required pattern="^[a-zA-Z0-9_]{0,}$">
+                              <span class="form-error">不能为空或者包含非法字符</span>
+                           </label>
+                            <p class="help-text" id="accountHelpText">用户名即账号，由数字字母下划线组成</p>
+                        </div>
+
+
+                        <div class="form-row">
+                            <label>
+                                <input type="password" id="input-password" class="password" onfocus="changeType('text')" onblur="changeType('password')"  placeholder="密码.." maxlength="16" aria-describedby="passwordHelpText" required pattern="([a-zA-Z0-9!@#$%^&*()_?<>{}]){1,16}">
+                                <span class="form-error">不能为空或者包含非法字符</span>
+                            </label>
+                            <p class="help-text" id="passwordHelpText">密码由数字，字母及特殊符号组成，最长为16位</p>
+                        </div>
+
+
+                        <div class="form-row">
+                            <label> <!--不能不选择密保问题-->
+                                <select id="securePassword">
+                                    <!--<option value="1">您父亲的姓名？</option>-->
+                                </select>
+                            </label>
+                            <p class="help-text" id="secHelpText">请选择密保问题，可保持默认</p>
+                        </div>
+
+                        <div class="form-row">
+                            <label>
+                                <input type="text" placeholder="请输入您的密保答案.." class="answer" aria-describedby="secAnsHelpText" required>
+                                <span class="form-error">密保答案不能为空</span>
+                            </label>
+                            <p class="help-text" id="secAnsHelpText">请牢记您的密保答案，这将是您找回密码的凭证</p>
+                        </div>
+                        <label><input type="checkbox" id="isReadProc" value="protocal"/> 《<a href="#!">克里斯多协议</a>》</label>
+
+                        <button class="button  disabled " id="submitRegister" style="background: darkorange;width: 100%;">提交注册</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer style="background-color: #ffffff;color: #000;height: 150px;">
+        <div class="bottom-info">
+            <div  style="color: #000;">Copyright © 2017 Christo. All Rights Reserved. </div>
+            <div  style="color: #000;">东软教育-地表最强小组</div>
+        </div>
+    </footer>
+</div>
+
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/what-input/dist/what-input.js"></script>
+<script src="../bower_components/foundation-sites/dist/js/foundation.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/validate.js"></script>
+<script src="../js/creator.js"></script>
+<script>
+
+    /*获取密保问题*/
+ loadQuestion();
+
+
+  /*未选择协议，则不允许提交注册*/
+  $("#isReadProc").click(function () {
+      if($(this).is(":checked")){
+          $("#submitRegister").removeClass("disabled");
+      }else{
+          $("#submitRegister").addClass("disabled");
+      }
+
+  });
+
+  //需要手动判断各信息是否符合格式
+
+  function checkInfo() {
+     if ( $(".form-error").hasClass("is-visible")){
+         console.log("有信息不满足标准格式");
+         return false;
+     }else{
+         return true;
+     }
+
+  }
+
+  $("#submitRegister").click(function () {
+      if (!$(this).hasClass("disabled")) {
+          if (checkInfo()){
+              register()
+          }
+      }
+      return false;
+  });
+
+
+    function checkUserName(elements) {
+        var username = $(elements).val();
+        if (isExist(username)){
+
+           $("#accountHelpText").text("当前用户名已存在，请重试！").css("color","red")
+            $(".username").focus();
+        }else{
+            $("#accountHelpText").text("用户名即账号，由数字字母下划线组成").css("color","#0a0a0a")
+
+        }
+    }
+
+</script>
+</body>
+</html>

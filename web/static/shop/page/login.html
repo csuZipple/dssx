@@ -1,0 +1,129 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>克里斯多的神秘商店-登录页面</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/my-defined.css">
+    <link rel="stylesheet" href="../css/account-mobile.css">
+    <link rel="stylesheet" href="../css/old/css/foundation.css">
+    <link rel="stylesheet" href="../css/old/css/app.css">
+</head>
+<body>
+
+<!--登录界面-->
+<div class="page-main">
+    <header class="page-top login-header">
+            <span class="logo">Christo</span>
+            <span class="welcome-tips">没有账号？
+               <span data-tooltip aria-haspopup="true" class="has-tip bottom" data-click-open="true" data-disable-hover="false" tabindex="2" title="点此注册克里斯多账号" style="font-weight: normal;"> <a href="register.html">立即注册</a></span>
+            </span>
+    </header>
+    <section class="page-content login-area">
+
+        <div class="login-area-wrapper">
+            <div class="ad-area show-for-medium">
+
+            </div>
+
+            <div class="right-login-form">
+                <div class="login-avatar show-for-small-only">
+                    <img src="../images/avatar/default-avatar.png" alt="默认头像">
+                </div>
+
+                <div id="login">
+                    <div id="tips" class="show-for-medium">账号密码登录</div>
+                    <form id="loginForm" method="post" onkeydown="if (event.keyCode==13) loginIn()">
+                        <div id="inputAccount">
+                            <input type="text" id="account" name="account" placeholder="支持用户名登录.." onfocus="focus_a()" onblur="blur_a()"  maxlength="20">
+                        </div>
+                        <div id="historyRecord">
+                            含有非法字符！
+                        </div>
+                        <div id="inputPassword">
+                            <input type="password" id="password" name="password" placeholder="请输入密码..." onfocus="focus_p()" onblur="blur_p()" maxlength="16">
+                        </div>
+                        <div id="error-tips">
+                            含有非法字符！
+                        </div>
+                        <div id="submitBtn">
+                            <input id="submitBtnId" type="button" name="submitBtn" value="登录"
+                                   onclick="loginIn()">
+                        </div>
+                    </form>
+                    <div id="bottom_web">
+                        <a href="forget.html" id="forgrtPsd" class="bottom_a">忘记密码？</a>
+                        <span class="border_a">|</span>
+                        <a href="register.html" id="register" class="bottom_a">注册新账号</a>
+                        <span class="border_a">|</span>
+                        <a href="../../admin/sign-in.html" id="faceBack" class="bottom_a">管理员登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer style="background-color: #ffffff;color: #000;height: 150px;">
+        <div class="bottom-info">
+            <div  style="color: #000;">Copyright © 2017 Christo. All Rights Reserved. </div>
+            <div  style="color: #000;">东软教育-地表最强小组</div>
+        </div>
+    </footer>
+</div>
+
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/what-input/dist/what-input.js"></script>
+<script src="../bower_components/foundation-sites/dist/js/foundation.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/validate.js"></script>
+<script src="../js/creator.js"></script>
+<script>
+    var loginForm=document.getElementById("login");
+    var inputAccount =document.getElementById("inputAccount");
+    var inputPassword=document.getElementById("inputPassword");
+    var historyRecord=document.getElementById("historyRecord");
+    var input=document.getElementsByTagName("input");
+    function focus_a(){
+        inputAccount.style.borderColor="blue";
+    }
+    function isNull(str){
+        return str == null;
+    }
+    function blur_a(){
+        inputAccount.style.borderColor="#e8e8e8";
+        var e=/[\u4e00-\u9fa5]/;
+        if(e.test(input[0].value)&&!isNull(input[0].value)){
+            historyRecord.style.visibility="visible";
+        }
+        else{
+            historyRecord.style.visibility="hidden";
+        }
+
+        //更新用户头像
+
+    }
+
+    function focus_p(){
+        inputPassword.style.borderColor="blue";
+    }
+
+    function blur_p(){
+        inputPassword.style.borderColor="#e8e8e8";
+    }
+
+    function loginIn() {
+        var username = $("#account").val();
+        var password = $("#password").val();
+        console.log("账号："+username);
+        console.log("密码："+password);
+        login(username,password);
+    }
+
+
+
+</script>
+</body>
+</html>

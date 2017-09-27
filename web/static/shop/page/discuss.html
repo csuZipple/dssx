@@ -1,0 +1,360 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>克里斯多的神秘商店-商品评论</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/my-defined.css">
+    <link rel="stylesheet" href="../css/old/css/foundation.css">
+    <link rel="stylesheet" href="../css/old/css/app.css">
+</head>
+<body>
+
+
+
+<!--响应式设计-->
+<!--顶部导航-->
+<!--移动端菜单怎么固定导航-->
+<div class="page-main">
+    <div class="page-top">
+        <div class="title-bar"  data-sticky data-options="marginTop:0;" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+            <button class="menu-icon" type="button" data-toggle="offCanvas"></button>
+            <div class="title-bar-title">Menu</div>
+        </div>
+        <!--sticky 固定导航条-->
+        <div class="top-bar show-for-medium" data-sticky data-options="marginTop:0;" style="width:100%;z-index: 998" id="responsive-menu">
+            <div class="top-bar-left">
+                <ul class="menu dropdown"  data-dropdown-menu>
+                    <li class="menu-text"><a href="javascript:go('main.html')" title="返回首页" style="display: inline;color: #000;">Christo</a></li>
+                    <li class="isLogin"><a href="javascript:go('login.html')">登录</a></li>
+                    <li class="isRegister"><a href="javascript:go('register.html')">注册</a></li>
+                    <li id="li-items-type"><a href="#!"><button class="divide-type" id="items-type" data-toggle="offCanvasTop">分类查询</button></a></li>
+
+                </ul>
+            </div>
+            <div class="top-bar-right">
+                <ul class="menu dropdown" data-dropdown-menu>
+                    <li class="show-for-medium isUserAvatar"><img class="avatar" src="../images/avatar/default-avatar.png" alt="avatar"></li>
+                    <li class="show-for-medium isUserName"><a class="user-name" href="">zipple</a></li>
+                    <li class="isShowUser"> <!--头像及个人中心先判断用户是否登录 未登录则不显示-->
+                        <a href="javascript:go('user-zone.html')">个人中心</a>
+                        <ul class="menu vertical">
+                            <li><a href="javascript:go('user-zone.html','cart')">购物车</a></li>
+                            <li><a data-link="favorite" href="javascript:go('user-zone.html','favorite')">我的收藏</a></li>
+                            <li><a data-link="history" href="javascript:go('user-zone.html','history')">浏览历史</a></li>
+                        </ul>
+                    </li>
+                    <li class="show-for-medium isLogout"><a href="javascript:logout()">退出登录</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--移动端菜单-->
+        <div class="off-canvas position-left" id="offCanvas" style="background: #121212;color: #ffffff;z-index: 200;" data-off-canvas>
+            <ul class="vertical menu left-menu">
+                <!--默认头像-->
+                <li style="width: 100%;min-height: 100px;padding-left: 15px;box-sizing: border-box">
+                    <img style="width: 80px;height: 80px;object-fit: cover;border-radius: 50%" src="../images/avatar/02.jpg" class="user-avatar" alt="avatar">
+                    <p class="user-name" style="border-bottom: 1px solid #ffffff;padding-left: 5px;">default name</p>
+                </li>
+                <!--这里为什么会有默认的黄线-->
+                <li><a href="javascript:go('login.html')" style="color: #ffffff;"><i class="fi-cloud"></i>&nbsp;登录</a></li>
+                <li><a href="javascript:go('register.html')" style="color: #ffffff;"><i class="fi-results-demographics"></i>&nbsp;注册</a></li>
+                <li><button class="divide-type" data-toggle="offCanvasTop"><i class="fi-page"></i>&nbsp;  分类查询</button></li>
+                <li><a href="javascript:go('user-zone.html')" style="color: #ffffff;"><i class="fi-home"></i>&nbsp;个人中心</a></li>
+                <li><a href="javascript:go('user-zone.html','cart')" style="color: #ffffff;"><i class="fi-shopping-cart"></i>&nbsp;购物车</a></li>
+                <li><a href="javascript:go('user-zone.html','history')" style="color: #ffffff;"><i class="fi-eye"></i>&nbsp;浏览历史</a></li>
+                <li><a href="javascript:go('user-zone.html','favorite')" style="color: #ffffff;"><i class="fi-star"></i>&nbsp;收藏夹</a></li>
+                <li><a href="javascript:logout()" style="color: #ffffff;"><i class="fi-unlink"></i>&nbsp;退出</a></li>
+            </ul>
+        </div>
+
+        <!--分类查询菜单-->
+        <div class="off-canvas position-top" id="offCanvasTop" style="background: #121212;color: #ffffff;z-index: 999" data-off-canvas>
+            <ul class=" dropdown menu root-category" data-dropdown-menu style="height: 100%;">
+
+              </ul>
+        </div>
+        <!--搜索框,搜索记录-->
+        <div class="grid-x align-center medium-search">
+
+            <div class="small-10 medium-10 large-6 search-area">
+                <label><input type="search" id="searchItems" onkeydown="if (event.keyCode==13) clickedSearch()" placeholder="Search.."/></label>
+                <ul class="search-result">
+                </ul>
+            </div>
+            <div class="small-2 medium-2 large-2 hide-for-large"><button class="button primary expanded text">搜索</button></div>
+            <div class="large-1 show-for-large"><button class="button primary expanded text">搜索</button></div>
+        </div>
+
+        <!--右侧固定返回顶部-->
+        <div class="back-to-top text-center show-for-medium">
+            <a href="javascript:goTop()" title="返回顶部" class="grid-x align-center" style="background: url('../images/icon/top.png') center ; background-size: contain"></a>
+        </div>
+    </div>
+    <!--商品详情展示页面-->
+    <div class="page-content grid-x align-center">
+
+        <div class="large-10">
+            <!--购买的当前商品，由地址栏传递参数-->
+            <div class="grid-x align-justify" style="border: 1px solid #e8e8e8;">
+                <!--小屏幕堆叠状态-->
+                <div class="large-6 small-12 item-image-area" style="padding: 2px 10px; box-sizing: border-box">
+                    <!--商品展示图片 区域-->
+                    <div class="grid-y small-12">
+                        <div class="small-12 big-img-container"><!--大图展示区域-->
+                            <img class="item-big-image" src="https://gd1.alicdn.com/imgextra/i1/898225/TB2VnQTybJmpuFjSZFwXXaE4VXa_!!898225.jpg_400x400.jpg_.webp" alt="商品图片">
+                        </div>
+                        <div class="small-12 grid-x align-left small-img-container" style="margin-top: 8px;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="large-6 small-12" style="padding: 2px 10px; box-sizing: border-box">
+                    <!--商品详细参数，配送地址-->
+                    <div class="grid-y small-12">
+                        <div class="small-12 item-detail-title param">2017新款Apple/苹果 MacBook Pro MF839CH/A XV2 TR2 13 15寸定制</div>
+                        <div class="small-12 item-detail-describe">【分期0首付 送转换线+转换插头 港版/国行 现货特价 顺丰包邮】【北京十年实体连锁 信誉保证】2017新款现货已到，顺丰速发。新款有深空灰/银色 两种颜色。</div>
+                        <div class="small-12 item-detail-price param" style="margin-top: 10px;"> 价格：￥<span class="red">4000</span></div>
+                        <div class="small-12 item-detail-discount param">商城优惠：购两台及以上，售价￥<span class="red">3888</span></div>
+                        <div class="small-12 item-detail-stock param">库存：<span class="red">100</span></div>
+                        <div class="small-12 item-detail-stock-place param">发货地：<span class="postage">湖南长沙</span> <span class="postage">全国包邮</span></div>
+                        <!--商品类型，选购不同参数的商品-->
+                        <div class="small-12 item-detail-type grid-x align-center param">
+                            <div class="small-12">尺寸规格：</div>
+                            <!--data-item-type：尺寸规格参数-->
+                            <div class="small-10 grid-x align-justify item-types-container" style="margin-top: 5px;">
+                                <!--<div class="item-prams" data-item-type="white-128g">白色-128g</div>-->
+
+                            </div>
+                        </div>
+                        <!--购买数量-->
+                        <div class="small-12 item-nums grid-x param">
+                            <div class="small-6 grid-x align-middle">
+                                <div class="small-5" style="margin-bottom: 10px;">购买数量：</div>
+                                <input placeholder="购买数量" oninput="checkItemsNums(this)" type="number" value="1">
+                            </div>
+                        </div>
+
+                        <!--购买按钮-->
+                        <div class="small-12 item-button-container">
+                            <button class="button alert" data-toggle="buy-success">立即购买</button>
+                            <button class="button primary addCart" data-toggle="add-to-cart-success"><i class="fi-shopping-cart"></i>&nbsp;加入购物车</button>
+                            <button class="button primary addCollection" ><i class="fi-folder-add"></i>&nbsp;收藏</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="grid-x align-justify" style="border: 1px solid #e8e8e8;margin-top: 20px;">
+                <!--左侧小边栏，右侧具体信息-->
+                <div class="small-12 large-3">
+                    <div class="small-12 related-items-container"> <i class="fi-share"></i>&nbsp;&nbsp;相似商品</div>
+
+                    <div class="small-12 grid-x align-justify related-items">
+                        <!--商品相似推荐3个-->
+
+
+                    </div>
+                </div>
+
+                <div class="small-12 large-9 item-comments-container">
+                    <div class="small-12  item-comments"> <i class="fi-comment"></i>&nbsp;&nbsp;宝贝评论</div>
+                    <!--加载用户评论，一次显示前4条评论-->
+                    <div class="small-12 grid-x">
+                        <div class="add-comments"><input class="comments" type="text" placeholder="添加评论"/><button class="button" onclick="addComment(this)">添加评论</button></div>
+                        <div class="small-12 grid-x user-comments-container">
+
+                        </div>
+
+                    </div>
+
+                    <!--推荐其他商品-->
+                    <div class="small-12 item-comments"><i class="fi-monitor"></i>&nbsp;&nbsp;他们还看过</div>
+                    <!--异步获取其他商品-->
+                    <div class="small-12 grid-x align-justify common-items-container">
+
+                    </div>
+
+                    <div class="small-12 item-comments">
+                        <i class="fi-battery-empty"></i>&nbsp;&nbsp;别看啦，么有啦！
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--购买成功，弹窗提醒-->
+    <div class="reveal tiny text-center mobile-modal" id="buy-success" data-reveal data-animation-in="fade-in" data-animation-out="fade-out">
+        <img src="../images/icon/success.png" alt="购买成功">
+        <p class="text-center"></p>
+        <p class="text-center">购买成功!</p>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="reveal tiny text-center mobile-modal" id="add-to-cart-success" data-reveal data-animation-in="fade-in" data-animation-out="fade-out">
+        <img src="../images/icon/success.png" alt="添加成功">
+        <p class="text-center"></p>
+        <p class="text-center">添加成功!</p>
+
+        <p class="text-center"><button class="button alert" onclick="go('user-zone.html','cart')">我的购物车</button></p>
+
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
+    <!--底部信息-->
+    <footer>
+        <div class="bottom-info">
+            <div>Copyright © 2017 Christo. All Rights Reserved. </div>
+            <div>东软教育-地表最强小组</div>
+        </div>
+    </footer>
+</div>
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/what-input/dist/what-input.js"></script>
+<script src="../bower_components/foundation-sites/dist/js/foundation.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/validate.js"></script>
+<script src="../js/creator.js"></script>
+
+
+<script>
+    loadItemsDetail();
+/**
+ * 加载当前购买的商品信息
+ */
+function loadItemsDetail() {
+    //获取地址栏--pid参数
+  //  var pid = getDecodeQueryString("pid");//此项参数不能为空
+    var pid =getDecodeQueryString("pid");
+    console.log("pid:"+pid)
+    if (pid==""||pid==null){
+        alert("不合法的访问形式");
+        window.location.href="main.html"
+    }else{
+
+        var uid = getDecodeQueryString("uid");
+        if (uid==null||uid==""){
+            console.log("当前用户未登录")
+        }else{
+           addHistory(uid,pid)
+        }
+
+        getItemImages(pid);
+        getItemInfo(pid);
+
+        //选中第一个分类
+        $(".item-prams").eq(0).addClass("checked");
+
+
+    //加载相似商品
+     console.log("相似商品推荐，敬请期待v2.0");
+        //加载评论
+        loadComments(pid);
+
+    //加载还看过
+        console.log("没有还看过的商品，敬请期待v2.0");
+        loadCommonItems();
+
+        loadRelatedItems();
+    }
+}
+
+/**
+ * 添加购物车
+ */
+$(".addCart").click(function () {
+    var uid = getUid();//如果未登录重定向去登录;
+    var num = $(".item-nums input").val();
+    var pid = getDecodeQueryString("pid");
+    var attrid = -1;
+    $(".item-prams").each(function () {
+        if ($(this).hasClass("checked")){
+          attrid=  $(this).attr("data-item-type")
+        }
+    });
+    console.log("属性id",attrid);
+
+    /*添加购物车，调用对话框*/
+    if (addToCart(uid,pid,num,attrid)){
+        alert("添加购物车成功")
+        window.location.reload();
+    }else{
+        alert("添加购物车失败，请重试！")
+    }
+});
+
+    /**
+     * 添加到我的收藏
+     */
+    $(".addCollection").click(function () {
+        var uid = getUid();//如果未登录重定向去登录;
+        var pid = getDecodeQueryString("pid");
+
+
+        /*添加购物车，调用对话框*/
+        if (addCollection(uid,pid)){
+            alert("添加收藏成功")
+            window.location.reload();
+        }
+    });
+
+
+    //搜索框--阻止冒泡
+$(document).click(function () {
+    hideSearch();
+});
+
+$(".search-area>input").click(function (e) {
+    e.stopPropagation();
+});
+
+$(".search-result li").click(function (e) {
+    e.stopPropagation();
+});
+    /**
+     * 设置搜索
+     */
+    $(".search").click(function () {
+        var q = $("#searchItems").val();
+        goto("search.html",{"q":encodeStr(q)});
+    });
+
+    function clickedSearch() {
+        var q = $("#searchItems").val();
+        goto("search.html",{"q":encodeStr(q)});
+    }
+
+    /**
+     * 添加评论
+     * @param elements
+     */
+    function addComment(elements) {
+        var comments = $(elements).prev().val();
+        console.log("添加评论.."+comments);
+        var params={
+            "comment.productId":getDecodeQueryString("pid"),
+            "comment.userId":getDecodeQueryString("uid"),
+            "comment.text":comments
+    };
+        var result = ajaxPost("comment/addComment",params,false);
+        if (result.success){
+            alert("添加成功");
+            window.location.reload();
+        }
+    }
+</script>
+</body>
+</html>
